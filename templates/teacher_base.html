@@ -424,8 +424,8 @@
                                 <span> Report </span>
                             </a>
                         </li>
-                        <li class="submenu {% if request.path == url 'teacher_calendar' %}active{% endif %}">
-                            <a href="{% url 'teacher_calendar' %}">
+                        <li class="submenu {% if request.path == url 'school_calendar' %}active{% endif %}">
+                            <a href="{% url 'school_calendar' %}">
                                 <i class="fa fa-calendar" aria-hidden="true"></i>
                                 <span> Calendar </span>
                             </a>
@@ -453,26 +453,26 @@
                         <li class="menu-title">
                             <span>Management</span>
                         </li>
-                        <li class="submenu {% if request.path == url 'teacher_tasks' %}active{% endif %}">
-                            <a href="{% url 'teacher_tasks' %}">
+                        <li class="submenu {% if request.path == url 'school_tasks' %}active{% endif %}">
+                            <a href="{% url 'school_tasks' %}">
                                 <i class="fa fa-tasks" aria-hidden="true"></i>
                                 <span> Tasks </span>
                             </a>
                         </li>
-                        <li class="submenu {% if request.path == url 'teacher_contact' %}active{% endif %}">
-                            <a href="{% url 'teacher_contact' %}">
+                        <li class="submenu {% if request.path == url 'school_contact' %}active{% endif %}">
+                            <a href="{% url 'school_contact' %}">
                                 <i class="fa fa-address-book" aria-hidden="true"></i>
                                 <span> Contact </span>
                             </a>
                         </li>
-                        <li class="submenu {% if request.path == url 'teacher_notice_board' %}active{% endif %}">
-                            <a href="{% url 'teacher_notice_board' %}">
+                        <li class="submenu {% if request.path == url 'school_notice_board_notice_board' %}active{% endif %}">
+                            <a href="{% url 'school_notice_board' %}">
                                 <i class="fas fa-chalkboard"></i>
                                 <span> Notice Board</span>
                             </a>
                         </li>
-                        <li class="submenu {% if request.path == url 'teacher_help' %}active{% endif %}">
-                            <a href="{% url 'teacher_help' %}">
+                        <li class="submenu {% if request.path == url 'school_help' %}active{% endif %}">
+                            <a href="{% url 'school_help' %}">
                                 <i class="fa fa-question-circle" aria-hidden="true"></i>
                                 <span> Help </span>
                             </a>

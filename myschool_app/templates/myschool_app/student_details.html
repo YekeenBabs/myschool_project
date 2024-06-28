@@ -1,0 +1,211 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}
+  Ansacad - Admin - Student Details
+{% endblock %}
+
+{% block content %}
+  <div class="page-wrapper">
+    <div class="content container-fluid">
+      <div class="page-header">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="page-sub-header">
+              <h3 class="page-title">Student Details</h3>
+              <ul class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a href="students.html">Student</a>
+                </li>
+                <li class="breadcrumb-item active">Student Details</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="about-info">
+                <h4>
+                  Profile
+                  <span><a href="javascript:;"><i class="feather-more-vertical"></i></a></span>
+                </h4>
+              </div>
+              <div class="student-profile-head">
+                <div class="profile-bg-img">
+                  <img src="{{ student.profile_bg_url }}" alt="Profile Background" />
+                </div>
+                <div class="row">
+                  <div class="col-lg-4 col-md-4">
+                    <div class="profile-user-box">
+                      <div class="profile-user-img">
+                        <img src="{{ student.profile_img_url }}" alt="Profile" />
+                        <div class="form-group students-up-files profile-edit-icon mb-0">
+                          <div class="uplod d-flex">
+                            <label class="file-upload profile-upbtn mb-0"><i class="feather-edit-3"></i><input type="file" /></label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="names-profiles">
+                        <h4>{{ student.name }}</h4>
+                        <h5>{{ student.class_name }}</h5>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 d-flex align-items-center">
+                    <div class="follow-group">
+                      <div class="students-follows">
+                        <h4>Club</h4>
+                        <h5>{{ student.club }}</h5>
+                      </div>
+                      <div class="students-follows">
+                        <h4>Club Duties</h4>
+                        <h5>{{ student.club_duties }}</h5>
+                      </div>
+                      <div class="students-follows">
+                        <h4>Societies</h4>
+                        <h5>{{ student.societies }}</h5>
+                      </div>
+                      <div class="students-follows">
+                        <h4>Societies Duties</h4>
+                        <h5>{{ student.societies_duties }}</h5>
+                      </div>
+                      <div class="students-follows">
+                        <h4>Sport</h4>
+                        <h5>{{ student.sport }}</h5>
+                      </div>
+                      <div class="students-follows">
+                        <h4>Sport Duties</h4>
+                        <h5>{{ student.sport_duties }}</h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="student-personals-grp">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="heading-detail">
+                      <h4>Personal Details :</h4>
+                    </div>
+                    <div class="personal-activity">
+                      <div class="personal-icons">
+                        <i class="feather-user"></i>
+                      </div>
+                      <div class="views-personal">
+                        <h4>Name</h4>
+                        <h5>{{ student.name }}</h5>
+                      </div>
+                    </div>
+                    <div class="personal-activity">
+                      <div class="personal-icons">
+                        <i class="feather-user"></i>
+                      </div>
+                      <div class="views-personal">
+                        <h4>Class</h4>
+                        <h5>{{ student.class_name }}</h5>
+                      </div>
+                    </div>
+                    <div class="personal-activity">
+                      <div class="personal-icons">
+                        <i class="feather-user"></i>
+                      </div>
+                      <div class="views-personal">
+                        <h4>Class Arm</h4>
+                        <h5>{{ student.class_arm }}</h5>
+                      </div>
+                    </div>
+                    <div class="personal-activity">
+                      <div class="personal-icons">
+                        <img src="assets/img/icons/building-icon.svg" alt="" />
+                      </div>
+                      <div class="views-personal">
+                        <h4>Department</h4>
+                        <h5>{{ student.department }}</h5>
+                      </div>
+                    </div>
+                    <div class="personal-activity">
+                      <div class="personal-icons">
+                        <i class="feather-phone-call"></i>
+                      </div>
+                      <div class="views-personal">
+                        <h4>Mobile</h4>
+                        <h5>{{ student.mobile_number }}</h5>
+                      </div>
+                    </div>
+                    <div class="personal-activity">
+                      <div class="personal-icons">
+                        <i class="feather-mail"></i>
+                      </div>
+                      <div class="views-personal">
+                        <h4>Email</h4>
+                        <h5>{{ student.email }}</h5>
+                      </div>
+                    </div>
+                    <div class="personal-activity">
+                      <div class="personal-icons">
+                        <i class="feather-user"></i>
+                      </div>
+                      <div class="views-personal">
+                        <h4>Gender</h4>
+                        <h5>{{ student.gender }}</h5>
+                      </div>
+                    </div>
+                    <div class="personal-activity">
+                      <div class="personal-icons">
+                        <i class="feather-calendar"></i>
+                      </div>
+                      <div class="views-personal">
+                        <h4>Date of Birth</h4>
+                        <h5>{{ student.dob }}</h5>
+                      </div>
+                    </div>
+                    <div class="personal-activity">
+                      <div class="personal-icons">
+                        <i class="feather-italic"></i>
+                      </div>
+                      <div class="views-personal">
+                        <h4>Language</h4>
+                        <h5>{{ student.language }}</h5>
+                      </div>
+                    </div>
+                    <div class="personal-activity mb-0">
+                      <div class="personal-icons">
+                        <i class="feather-map-pin"></i>
+                      </div>
+                      <div class="views-personal">
+                        <h4>Address</h4>
+                        <h5>{{ student.address }}</h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-8">
+              <div class="student-personals-grp">
+                <div class="card mb-0">
+                  <div class="card-body">
+                    <div class="heading-detail">
+                      <h4>About Me</h4>
+                    </div>
+                    <div class="hello-park">
+                      <h5>Hello, I am {{ student.name }}!</h5>
+                      <p>{{ student.bio }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

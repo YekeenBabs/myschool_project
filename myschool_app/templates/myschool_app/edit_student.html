@@ -1,0 +1,188 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}
+  Ansacad - Admin - Edit Student
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <div class="row align-items-center">
+      <div class="col-sm-12">
+        <div class="page-sub-header">
+          <h3 class="page-title">Edit Students</h3>
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="{% url 'students' %}">Students</a>
+            </li>
+            <li class="breadcrumb-item active">Edit Students</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card comman-shadow">
+        <div class="card-body">
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% comment %} {{ form.as_p }} {% endcomment %}
+            <div class="row">
+              <div class="col-12">
+                <h5 class="form-title student-info">
+                  Student Information
+                  <span><a href="javascript:;"><i class="feather-more-vertical"></i></a></span>
+                </h5>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  <label>First Name <span class="login-danger">*</span></label>
+                  {{ form.first_name }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  <label>Last Name <span class="login-danger">*</span></label>
+                  {{ form.last_name }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  <label>Middle Name <span class="login-danger">*</span></label>
+                  {{ form.middle_name }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  <label>Gender <span class="login-danger">*</span></label>
+                  {{ form.gender }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms calendar-icon">
+                  <label>Date Of Birth <span class="login-danger">*</span></label>
+                  {{ form.date_of_birth }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  <label>Roll Number</label>
+                  {{ form.roll_number }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  <label>Blood Group <span class="login-danger">*</span></label>
+                  {{ form.blood_group }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  <label>Religion <span class="login-danger">*</span></label>
+                  {{ form.religion }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  <label>E-Mail <span class="login-danger">*</span></label>
+                  {{ form.email }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  <label>Class <span class="login-danger">*</span></label>
+                  {{ form.student_class }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  <label>Class Arm <span class="login-danger">*</span></label>
+                  {{ form.class_arm }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  <label>Department</label>
+                  {{ form.department }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  <label>Admission ID</label>
+                  {{ form.admission_id }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  <label>Parent's Name</label>
+                  {{ form.parent_name }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  <label>Parent's Phone</label>
+                  {{ form.parent_phone }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  <label>Home Address</label>
+                  {{ form.address }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  <label>Emergency Name</label>
+                  {{ form.emergency_contact_name }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  <label>Emergency Contact</label>
+                  {{ form.emergency_contact_phone }}
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-4">
+                <div class="form-group students-up-files">
+                  <label>Upload Student Photo (150px X 150px)</label>
+                  <div class="uplod">
+                    <label class="file-upload image-upbtn mb-0">
+                      Choose File
+                      {{ form.photo }}
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="student-submit">
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
