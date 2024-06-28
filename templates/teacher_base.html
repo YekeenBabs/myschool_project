@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+    {% load static %}
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>{% block title %} Ansacad - Teacher - Dashboard {% endblock %}</title>
+    <link rel="shortcut icon" href="{% static 'logo/ansacad 2.jpeg' %}">
+    <link 
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap"
+    rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/teacher_style.css' %}">
+
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+
+        <!-- Header Section -->
+
+        {% block header %}
+
+        <div class="header">
+
+            <div class="header-left">
+
+                <a href="{% url 'teacher_index' %}" class="logo">
+
+                    <img src="{% static 'logo/ansacad 2.jpeg' %}" alt="Logo"> ANSAR UD DEEN ACADEMY
+
+                </a>
+
+            </div>
+            
+            <div class="menu-toggle">
+            
+                <a href="javascript:void(0);" id="toggle_btn">
+            
+                    <i class="fas fa-bars"></i>
+            
+                </a>
+            
+            </div>
+            
+            <div class="top-nav-search">
+            
+                <form>
+            
+                    <input type="text" class="form-control" placeholder="Search here">
+                    <button class="btn" type="submit"><i class="fas fa-search"></i></button>
+            
+                </form>
+            
+            </div>
+            
+            <a class="mobile_btn" id="mobile_btn">
+            
+                <i class="fas fa-bars"></i>
+            
+            </a>
+            
+            <ul class="nav user-menu">
+            
+                <li class="nav-item dropdown noti-dropdown me-2">
+            
+                    <a href="#" class="dropdown-toggle nav-link header-nav-list" data-bs-toggle="dropdown">
+            
+                        <img src="{% static 'img/icons/header-icon-05.svg' %}" alt="">
+            
+                    </a>
+            
+                    <div class="dropdown-menu notifications">
+            
+                        <div class="topnav-dropdown-header">
+            
+                            <span class="notification-title">Notifications</span>
+                            <a href="{% url 'clear_notifications' %}" class="clear-noti"> Clear All </a>
+            
+                        </div>
+            
+                        <div class="noti-content">
+            
+                            <ul class="notification-list">
+            
+                                {% for notification in notifications %}
+            
+                                <li class="notification-message">
+            
+                                    <a href="#">
+            
+                                        <div class="media d-flex">
+            
+                                            <span class="avatar avatar-sm flex-shrink-0">
+            
+                                                <img class="avatar-img rounded-circle" alt="User Image"
+                                                    src="{% static 'img/profiles/avatar-02.jpg' %}">
+            
+                                            </span>
+        
+                                            <div class="media-body flex-grow-1">
+        
+                                                <p class="noti-details">{{ notification.message }}</p>
+                                                <p class="noti-time"><span class="notification-time">{{
+                                                        notification.created_at }}</span></p>
+                                            </div>
+        
+                                        </div>
+        
+                                    </a>
+        
+                                </li>
+        
+                                {% endfor %}
+        
+                            </ul>
+        
+                        </div>
+        
+                        <div class="topnav-dropdown-footer">
+        
+                            <a href="{% url 'notifications' %}">View all Notifications</a>
+        
+                        </div>
+        
+                    </div>
+        
+                </li>
+        
+                <li class="nav-item zoom-screen me-2">
+        
+                    <a href="#" class="nav-link header-nav-list win-maximize">
+        
+                        <img src="{% static 'img/icons/header-icon-04.svg' %}" alt="">
+        
+                    </a>
+        
+                </li>
+        
+                <li class="nav-item dropdown has-arrow new-user-menus">
+        
+                    <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+        
+                        <span class="user-img">
+        
+                            <img class="rounded-circle" src="{{ teacher.profile_pic.url }}" width="31"
+                                alt="teacher-pics">
+        
+                                <div class="user-text">
+        
+                                    <h6 class="user-name mb-0">{{ teacher.name }}</h6>
+        
+                                    <p class="text-muted mb-0">TEACHER</p>
+        
+                                </div>
+        
+                        </span>
+        
+                    </a>
+     
+                    <div class="dropdown-menu">
+     
+                        <div class="user-header">
+     
+                            <div class="avatar avatar-sm">
+     
+                                <img src="{{ teacher.profile_pic.url }}" alt="User Image"
+                                    class="avatar-img rounded-circle">
+     
+                            </div>
+ 
+                            <div class="user-text">
+ 
+                                <h6 class="user-name mb-0">{{ teacher.name }}</h6>
+                                <p class="text-muted mb-0">Teacher</p>
+ 
+                            </div>
+ 
+                        </div>
+ 
+                        <a class="dropdown-item" href="{% url 'teacher_profile' %}">My Profile</a>
+                        <a class="dropdown-item" href="teacher_inbox.html">Inbox</a>
+                        <a class="dropdown-item" href="login.html">Logout</a>
+ 
+                    </div>
+ 
+                </li>
+ 
+            </ul>
+ 
+        </div>
+ 
+        {% endblock %}
+
+
+        <!-- Sidebar Section -->
+ 
+        {% block sidebar %}
+        
+        <div class="sidebar" id="sidebar">
+        
+            <div class="sidebar-inner slimscroll">
+        
+                <div id="sidebar-menu" class="sidebar-menu">
+        
+                    <ul>
+        
+                        <li class="menu-title">
+                            <span>Main Menu</span>
+                        </li>
+                     
+                        <li class="submenu {% if request.path == '/profile/' %}active{% endif %}">
+                            <a href="{% url 'teacher_profile' %}">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                <span> Profile </span>
+                            </a>
+                        </li>
+                     
+                        <li class="submenu {% if request.path == '/Class Info/' %}active{% endif %}">
+                            <a href="{% url 'class_info' %}">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span> Class Info </span>
+                            </a>
+                        </li>
+                     
+                        <li
+                            class="submenu {% if request.path in ['/teacher_grade_test/', '/teacher_grade_exam/', '/teacher_grade_assignment/', '/teacher_grade_quizzes/', '/teacher_grade_project/', '/teacher_grade_result/'] %}active{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                <span> Grades </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+                                <li {% if request.path=='/teacher_grade_test/' %}class="active" {% endif %}>
+                                    <a href="{% url 'teacher_grade_test' %}">Test</a>
+                                </li>
+                                <li {% if request.path=='/teacher_grade_exam/' %}class="active" {% endif %}>
+                                    <a href="{% url 'teacher_grade_exam' %}">Examination</a>
+                                </li>
+                                <li {% if request.path=='/teacher_grade_assignment/' %}class="active" {% endif %}>
+                                    <a href="{% url 'teacher_grade_assignment' %}">Assignment</a>
+                                </li>
+                                <li {% if request.path=='/teacher_grade_quizzes/' %}class="active" {% endif %}>
+                                    <a href="{% url 'teacher_grade_quizzes' %}">Quizzes</a>
+                                </li>
+                                <li class="submenu {% if request.path in ['/project_personal/', '/project_group/', '/project_class/', '/project_department/'] %}active{% endif %}">
+                                    <a href="#">
+                                        <i class="fas fa-building"></i>
+                                        <span> Project</span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    <ul>
+                                        <li {% if request.path=='/project_personal/' %}class="active" {% endif %}><a
+                                                href="{% url 'project_personal' %}">Personal</a></li>
+                                        <li {% if request.path=='/project_group/' %}class="active" {% endif %}><a
+                                                href="{% url 'project_group' %}">Group</a></li>
+                                        <li {% if request.path=='/project_class/' %}class="active" {% endif %}><a
+                                                href="{% url 'project_class' %}">Class</a></li>
+                                        <li {% if request.path=='/project_department/' %}class="active" {% endif %}><a
+                                                href="{% url 'project_department' %}">Department</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li
+                            class="submenu {% if request.path in ['/create_project/', '/project_detail/', '/project_list/', '/submit_project/'] or 'project_detail' in request.path %}active{% endif %}">
+                            <a href="#">
+                                <i class="fas fa-project-diagram"></i>
+                                <span> Projects </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+                                <li {% if request.path=='/create_project/' %}class="active" {% endif %}>
+                                    <a href="{% url 'create_project' %}">Create Project</a>
+                                </li>
+                                <li {% if request.path=='/project_list/' %}class="active" {% endif %}>
+                                    <a href="{% url 'project_detail' %}">Project Details</a>
+                                </li>
+                                <li {% if request.path=='/project_list/' %}class="active" {% endif %}>
+                                    <a href="{% url 'project_list' %}">Project List</a>
+                                </li>
+                                <li {% if request.path=='/submit_project/' %}class="active" {% endif %}>
+                                    <a href="{% url 'submit_project' %}">Submit Project</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="menu-title">
+                            <span>Class Management</span>
+                        </li>
+                        <li class="submenu {% if request.path == '/teacher_dashboard/' %}active{% endif %}">
+                            <a href="{% url 'teacher_dashboard' %}">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span> Dashboard </span>
+                            </a>
+                        </li>
+                        <li class="submenu {% if request.path == '/teacher_students/' %}active{% endif %}">
+                            <a href="{% url 'teacher_students' %}">
+                                <i class="fas fa-users"></i>
+                                <span> Students </span>
+                            </a>
+                        </li>
+                        <li class="submenu {% if request.path == '/teacher_document/' %}active{% endif %}">
+                            <a href="{% url 'teacher_document' %}">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                <span> Lecture Document </span>
+                            </a>
+                        </li>
+                        <li class="submenu {% if request.path == '/teacher_video/' %}active{% endif %}">
+                            <a href="{% url 'teacher_video' %}">
+                                <i class="fas fa-clipboard-list"></i>
+                                <span> Lecture Video </span>
+                            </a>
+                        </li>
+                        <li class="submenu {% if request.path == '/teacher_assignment/' %}active{% endif %}">
+                            <a href="{% url 'teacher_assignment' %}">
+                                <i class="fas fa-clipboard-list"></i>
+                                <span> Assignment </span>
+                            </a>
+                        </li>
+                        <li class="submenu {% if request.path == '/teacher_quiz/' %}active{% endif %}">
+                            <a href="{% url 'teacher_quiz' %}">
+                                <i class="fas fa-clipboard-list"></i>
+                                <span> Quizzes </span>
+                            </a>
+                        </li>
+                        <li class="submenu {% if request.path == '/teacher_event/' %}active{% endif %}">
+                            <a href="{% url 'teacher_event' %}">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span> Events </span>
+                            </a>
+                        </li>
+                        <li class="submenu {% if request.path == '/teacher_timetable/' %}active{% endif %}">
+                            <a href="{% url 'teacher_timetable' %}">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span> Time Table </span>
+                            </a>
+                        </li>
+                        <li
+                            class="submenu {% if request.path in ['/teacher_activity_sports/', '/teacher_activity_clubs/', '/teacher_activity_societies/'] %}active{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-diamond"></i>
+                                <span> Extra-curricular Activities </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+                                <li {% if request.path=='/teacher_activity_sports/' %}class="active" {% endif %}><a
+                                        href="{% url 'teacher_activity_sports' %}">Sports</a></li>
+                                <li {% if request.path=='/teacher_activity_clubs/' %}class="active" {% endif %}>
+                                    <a href="{% url 'teacher_activity_clubs' %}">Clubs</a>
+                                </li>
+                                <li {% if request.path=='/teacher_activity_societies/' %}class="active" {% endif %}><a
+                                        href="{% url 'teacher_activity_societies' %}">Societies</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu-title">
+                            <span>Message & Notification</span>
+                        </li>
+                        <li
+                            class="submenu {% if request.path in ['/inbox/', '/compose/', '/view-mail/'] %}active{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-envelope"></i>
+                                <span> Mail</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+                                <li {% if request.path=='/inbox/' %}class="active" {% endif %}><a
+                                        href="inbox.html">Inbox</a></li>
+                                <li {% if request.path=='/compose/' %}class="active" {% endif %}><a
+                                        href="compose.html">Compose</a></li>
+                                <li {% if request.path=='/view-mail/' %}class="active" {% endif %}><a
+                                        href="view-mail.html">View Mail</a></li>
+                            </ul>
+                        </li>
+                        <li
+                            class="submenu {% if request.path in ['/teacher_notification/', '/teacher_notification_all/', '/teacher_notification_add/', '/teacher_notification_edit/', '/teacher_notification_delete/'] %}active{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-bell"></i>
+                                <span> Notification </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+                                <li {% if request.path=='/teacher_notification/' %}class="active" {% endif %}><a
+                                        href="{% url 'teacher_notification' %}">New Notification</a></li>
+                                <li {% if request.path=='/teacher_notification_all/' %}class="active" {% endif %}><a
+                                        href="{% url 'teacher_notification_all' %}">All Notification</a></li>
+                                <li {% if request.path=='/teacher_notification_add/' %}class="active" {% endif %}><a
+                                        href="{% url 'teacher_notification_add' %}">Add Notification</a></li>
+                                <li {% if request.path=='/teacher_notification_edit/' %}class="active" {% endif %}><a
+                                        href="{% url 'teacher_notification_edit' %}">Edit Notification</a>
+                                </li>
+                                <li {% if request.path=='/teacher_notification_delete/' %}class="active" {% endif %}><a
+                                        href="{% url 'teacher_notification_delete' %}">Delete
+                                        Notification</a></li>
+                            </ul>
+                        </li>
+                        <li
+                            class="submenu {% if request.path in ['/chat/', '/group_chat/', '/video_chat/', '/audio_chat/'] %}active{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-comments"></i>
+                                <span> Chat</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+                                <li {% if request.path=='/chat/' %}class="active" {% endif %}><a
+                                        href="chat.html">Chat</a></li>
+                                <li {% if request.path=='/group_chat/' %}class="active" {% endif %}><a
+                                        href="chat.html">Group Chat</a></li>
+                                <li {% if request.path=='/video_chat/' %}class="active" {% endif %}><a
+                                        href="chat.html">Video Chat</a></li>
+                                <li {% if request.path=='/audio_chat/' %}class="active" {% endif %}><a
+                                        href="chat.html">Audio Chat</a></li>
+                            </ul>
+                        </li>
+                        <li class="submenu {% if request.path == url 'teacher_report' %}active{% endif %}">
+                            <a href="{% url 'teacher_report' %}">
+                                <i class="fa fa-flag" aria-hidden="true"></i>
+                                <span> Report </span>
+                            </a>
+                        </li>
+                        <li class="submenu {% if request.path == url 'teacher_calendar' %}active{% endif %}">
+                            <a href="{% url 'teacher_calendar' %}">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                <span> Calendar </span>
+                            </a>
+                        </li>
+                        <li
+                            class="submenu {% if request.path in ['/groups/', '/view_group/', '/add_group/', '/edit_group/', '/delete_group/'] %}active{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-comments"></i>
+                                <span> Groups</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+                                <li {% if request.path=='/groups/' %}class="active" {% endif %}><a
+                                        href="groups.html">Groups</a></li>
+                                <li {% if request.path=='/groups/' %}class="active" {% endif %}><a
+                                        href="groups.html">View Groups</a></li>
+                                <li {% if request.path=='/groups/' %}class="active" {% endif %}><a
+                                        href="groups.html">Add Group</a></li>
+                                <li {% if request.path=='/groups/' %}class="active" {% endif %}><a
+                                        href="groups.html">Edit Group</a></li>
+                                <li {% if request.path=='/groups/' %}class="active" {% endif %}><a
+                                        href="groups.html">Delete Group</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu-title">
+                            <span>Management</span>
+                        </li>
+                        <li class="submenu {% if request.path == url 'teacher_tasks' %}active{% endif %}">
+                            <a href="{% url 'teacher_tasks' %}">
+                                <i class="fa fa-tasks" aria-hidden="true"></i>
+                                <span> Tasks </span>
+                            </a>
+                        </li>
+                        <li class="submenu {% if request.path == url 'teacher_contact' %}active{% endif %}">
+                            <a href="{% url 'teacher_contact' %}">
+                                <i class="fa fa-address-book" aria-hidden="true"></i>
+                                <span> Contact </span>
+                            </a>
+                        </li>
+                        <li class="submenu {% if request.path == url 'teacher_notice_board' %}active{% endif %}">
+                            <a href="{% url 'teacher_notice_board' %}">
+                                <i class="fas fa-chalkboard"></i>
+                                <span> Notice Board</span>
+                            </a>
+                        </li>
+                        <li class="submenu {% if request.path == url 'teacher_help' %}active{% endif %}">
+                            <a href="{% url 'teacher_help' %}">
+                                <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                <span> Help </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+
+   
+        <!-- Main Content Section -->
+   
+        <div class="page-wrapper">
+   
+            <div class="content container-fluid">
+   
+                {% block content %}
+   
+                <!-- Page-specific content will go here -->
+   
+                {% endblock %}
+   
+            </div>
+   
+        </div>
+
+        <!-- Footer Section -->
+
+        {% block footer %}
+
+        <footer>
+
+            <p>&copy; 2024 Ansacad School Management System. All Rights Reserved.</p>
+
+        </footer>
+
+        {% endblock %}
+
+    </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/script.js' %}"></script>
+<script defer src="{% static 'js/teacher_script.js' %}"></script>
+
+
+</body>
+
+</html>
