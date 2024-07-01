@@ -139,6 +139,7 @@ class UserProfile(models.Model):
 
 
 class Department(models.Model):
+    name = models.CharField(max_length=255, default="Default Department")  # Ensure this field exists
     department_id = models.CharField(max_length=20, unique=True)
     department_name = models.CharField(max_length=100)
     head_of_department = models.CharField(max_length=100)
@@ -231,6 +232,10 @@ class TeacherSubjectClass(models.Model):
     class Meta:
         db_table = 'teacher_subject_class'
         unique_together = ('teacher', 'subject')
+        constraints = [
+            models.UniqueConstraint(fields=[
+                                    'teacher', 'subject', 'class_assigned'], name='unique_teacher_subject_class'),
+        ]
 
     def __str__(self):
         return f"{self.teacher} - {self.subject} - {self.class_assigned}"
@@ -719,14 +724,6 @@ class Borrow(models.Model):
 
     def __str__(self):
         return f"{self.student} borrowed {self.book}"
-
-
-class YourModel:
-    pass
-
-
-class TeacherSubjectClass:
-    pass
 
 
 class Skill:

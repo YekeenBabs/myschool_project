@@ -1,39 +1,34 @@
 from django.contrib import admin
 from .models import (
-     CustomUser, Department, Class, Document,
-     Student, Teacher, Subject, Quiz, Question,
-     Option, Notification, StudentQuizAttempt,
-     TeacherSubjectClass, TeacherClass, Attendance,
-     LectureNote, Assignment, Video, Result, Parent
+    CustomUser, Department, Class, Document,
+    Student, Teacher, Subject, Quiz, Question,
+    Option, Notification, StudentQuizAttempt,
+    TeacherSubjectClass, TeacherClass, Attendance,
+    LectureNote, Assignment, Video, Result, Parent
 )
 from django.utils import timezone
 from datetime import timedelta
 
 # Register your models here.
-
 admin.site.register(CustomUser)
-admin.site.register(Department)
-admin.site.register(Teacher)
-admin.site.register(Student)
-admin.site.register(Parent)
-admin.site.register(Subject)
-admin.site.register(Class)
-admin.site.register(LectureNote)
-admin.site.register(Assignment)
-admin.site.register(Video)
-admin.site.register(Result)
-admin.site.register(Quiz)
 admin.site.register(Question)
 admin.site.register(Option)
 admin.site.register(Notification)
 admin.site.register(StudentQuizAttempt)
 admin.site.register(TeacherSubjectClass)
-admin.site.register(TeacherClass)
 
+# Custom admin classes
 
+@admin.register(TeacherClass)
+class TeacherClassAdmin(admin.ModelAdmin):
+    list_display = ('teacher', 'class_assigned')
+    search_fields = ('teacher__first_name', 'teacher__last_name', 'class_assigned__name')
+    list_filter = ('teacher', 'class_assigned')
+
+@admin.register(Attendance)
 class AttendanceAdmin(admin.ModelAdmin):
-    list_display = ['date', 'student', 'status']  # Customize as needed
-    list_filter = [('date', admin.DateFieldListFilter)] 
+    list_display = ['date', 'student', 'status']
+    list_filter = ['date']
 
     def changelist_view(self, request, extra_context=None):
         if request.GET.get('date__gte') and request.GET.get('date__lte'):
@@ -42,8 +37,6 @@ class AttendanceAdmin(admin.ModelAdmin):
             end_date = timezone.datetime.strptime(request.GET.get('date__lte'), date_format) + timedelta(days=1)
 
         return super().changelist_view(request, extra_context=extra_context)
-  
-admin.site.register(Attendance, AttendanceAdmin)
 
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
@@ -77,7 +70,7 @@ class SubjectAdmin(admin.ModelAdmin):
 class ClassAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
-    filter_horizontal = ('subjects', 'teachers', 'students')
+    filter_horizontal = ('teachers', 'students')  # Assuming 'subjects' is not a field
 
 @admin.register(LectureNote)
 class LectureNoteAdmin(admin.ModelAdmin):
@@ -99,7 +92,7 @@ class QuizAdmin(admin.ModelAdmin):
 
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
-    list_display = ('title', 'subject', 'teacher', 'url')
+    list_display = ('title', 'subject', 'teacher')
     search_fields = ('title',)
     list_filter = ('subject', 'teacher')
 
@@ -114,9 +107,3 @@ class DocumentAdmin(admin.ModelAdmin):
     list_display = ('title', 'subject', 'class_associated', 'teacher', 'document_week', 'uploaded_at')
     search_fields = ('title', 'description')
     list_filter = ('subject', 'class_associated', 'teacher', 'document_week', 'uploaded_at')
-
-
-
-
- 
-
