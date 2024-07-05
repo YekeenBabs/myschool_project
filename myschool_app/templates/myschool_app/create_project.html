@@ -1,0 +1,47 @@
+{% extends "myschool_app/teacher_base.html" %}
+
+{% block title %} Ansacad - Teacher - Create Project {% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-sub-header">
+                <h3 class="page-title">Create Project</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'teacher_index' %}">Home</a></li>
+                    <li class="breadcrumb-item active">Project</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="project_type">Project Type:</label>
+            <select class="form-control" id="project_type" name="project_type">
+                <option value="personal">Personal</option>
+                <option value="group">Group</option>
+                <option value="class">Class</option>
+                <option value="department">Department</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="due_date">Due Date:</label>
+            <input type="datetime-local" class="form-control" id="due_date" name="due_date" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Project</button>
+    </form>
+</div>
+{% endblock %}

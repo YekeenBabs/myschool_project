@@ -1,0 +1,15 @@
+{% extends "myschool_app/student_base.html" %}
+
+{% block title %}View Document{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>{{ document.title }}</h2>
+</div>
+
+<div class="document-content">
+    <p><strong>Week:</strong> {{ document.week }}</p>
+    <p><strong>Description:</strong> {{ document.description }}</p>
+    <p><a href="{{ document.file.url }}" target="_blank">Download Document</a></p>
+</div>
+{% endblock %}

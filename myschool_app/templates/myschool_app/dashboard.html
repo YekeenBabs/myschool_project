@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Your head content -->
+</head>
+<body>
+<div class="page-wrapper">
+    <div class="content container-fluid">
+
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="page-sub-header">
+                        <h3 class="page-title">Welcome {{ request.user.first_name }}!</h3>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                            <li class="breadcrumb-item active">Teacher</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            {% for class in classes %}
+            <div class="col-xl-3 col-sm-6 col-12 d-flex">
+                <div class="card bg-comman w-100">
+                    <div class="card-body">
+                        <div class="db-widgets d-flex justify-content-between align-items-center">
+                            <div class="db-info">
+                                <h6>Total Classes</h6>
+                                <h3>{{ class.name }}</h3>
+                            </div>
+                            <div class="db-icon">
+                                <img src="{% static 'assets/img/icons/teacher-icon-01.svg' %}" alt="Dashboard Icon">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="row">
+            {% for lesson in lessons %}
+            <div class="col-12 col-lg-8 col-xl-8 d-flex">
+                <div class="card flex-fill comman-shadow">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col-6">
+                                <h5 class="card-title">{{ lesson.title }}</h5>
+                            </div>
+                            <div class="col-6">
+                                <span class="float-end view-link"><a href="#">View All Courses</a></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-3 pb-3">
+                        <div class="table-responsive lesson">
+                            <table class="table table-center">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="date">
+                                                <b>{{ lesson.title }}</b>
+                                                <p>{{ lesson.description }}</p>
+                                                <ul class="teacher-date-list">
+                                                    <li><i class="fas fa-calendar-alt me-2"></i>{{ lesson.date }}</li>
+                                                    <li>|</li>
+                                                    <li><i class="fas fa-clock me-2"></i>{{ lesson.start_time }} - {{ lesson.end_time }}</li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="lesson-confirm">
+                                                <a href="#">{{ lesson.is_confirmed|yesno:"Confirmed,Unconfirmed" }}</a>
+                                            </div>
+                                            <button type="submit" class="btn btn-info">Reschedule</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="col-12 col-lg-12 col-xl-4 d-flex">
+            <div class="card flex-fill comman-shadow">
+                <div class="card-body">
+                    <div id="calendar-doctor" class="calendar-container"></div>
+                    <div class="calendar-info calendar-info1">
+                        <div class="up-come-header">
+                            <h2>Upcoming Events</h2>
+                            <span><a href="javascript:;"><i class="feather-plus"></i></a></span>
+                        </div>
+                        {% for event in events %}
+                        <div class="upcome-event-date">
+                            <h3>{{ event.date }}</h3>
+                            <span><i class="fas fa-ellipsis-h"></i></span>
+                        </div>
+                        <div class="calendar-details">
+                            <p>{{ event.start_time }}</p>
+                            <div class="calendar-box normal-bg">
+                                <div class="calandar-event-name">
+                                    <h4>{{ event.title }}</h4>
+                                    <h5>{{ event.description }}</h5>
+                                </div>
+                                <span>{{ event.start_time }} - {{ event.end_time }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Copyright © 2022 Dreamguys.</p>
+    </footer>
+
+</div>
+</body>
+</html>

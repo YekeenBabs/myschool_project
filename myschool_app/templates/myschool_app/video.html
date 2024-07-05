@@ -1,0 +1,11 @@
+{% for video in videos %}
+    {% if video.week == week %}
+        <h5>{{ video.title }}</h5>
+        <p>{{ video.description }}</p>
+        <video controls>
+            <source src="{{ video.file.url }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <hr>
+    {% endif %}
+{% endfor %}

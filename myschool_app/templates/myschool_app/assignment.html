@@ -1,0 +1,16 @@
+{% extends "myschool_app/student_base.html" %}
+
+{% block title %} View Assignment {% endblock %}
+
+{% block content %}
+
+{% for document in documents %}
+    {% if assignment.week == week %}
+        <h5>{{ assignment.title }}</h5>
+        <p>{{ assignment.description }}</p>
+        <a href="{{ assignment.file.url }}" target="_blank">Download</a>
+        <hr>
+    {% endif %}
+{% endfor %}
+
+{% endblock %}

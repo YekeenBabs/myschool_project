@@ -1,0 +1,25 @@
+{% extends "myschool_app/student_base.html" %}
+
+{% block title %}My Projects{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-sub-header">
+                <h3 class="page-title">Project Uploads</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'student_index' %}">Home</a></li>
+                    <li class="breadcrumb-item active">Project</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ul>
+    {% for project in projects %}
+    <li><a href="{% url 'submit_project' project.id %}">{{ project.title }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

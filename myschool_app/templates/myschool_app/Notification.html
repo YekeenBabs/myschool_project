@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h3 class="mb-4">Notifications</h3>
+        <ul class="list-group">
+            {% for notification in notifications %}
+                <li class="list-group-item">
+                    {{ notification.message }}
+                    <a href="{% url 'mark_notification_as_read' notification.id %}" class="btn btn-sm btn-primary ml-2">Mark as Read</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
+
+

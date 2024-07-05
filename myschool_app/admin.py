@@ -4,7 +4,8 @@ from .models import (
     Student, Teacher, Subject, Quiz, Question,
     Option, Notification, StudentQuizAttempt,
     TeacherSubjectClass, TeacherClass, Attendance,
-    LectureNote, Assignment, Video, Result, Parent
+    LectureNote, Assignment, Video, Result, Parent,
+    UserProfile
 )
 from django.utils import timezone
 from datetime import timedelta
@@ -16,14 +17,15 @@ admin.site.register(Option)
 admin.site.register(Notification)
 admin.site.register(StudentQuizAttempt)
 admin.site.register(TeacherSubjectClass)
+admin.site.register(UserProfile)
 
 # Custom admin classes
-
 @admin.register(TeacherClass)
 class TeacherClassAdmin(admin.ModelAdmin):
     list_display = ('teacher', 'class_assigned')
     search_fields = ('teacher__first_name', 'teacher__last_name', 'class_assigned__name')
     list_filter = ('teacher', 'class_assigned')
+
 
 @admin.register(Attendance)
 class AttendanceAdmin(admin.ModelAdmin):
@@ -38,57 +40,67 @@ class AttendanceAdmin(admin.ModelAdmin):
 
         return super().changelist_view(request, extra_context=extra_context)
 
+
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description')
+    list_display = ('name', 'description',)
     search_fields = ('name',)
+
 
 @admin.register(Teacher)
 class TeacherAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'department', 'subject_specialization')
+    list_display = ('first_name', 'last_name', 'department', 'subject_specialization',)
     search_fields = ('first_name', 'last_name', 'subject_specialization')
     list_filter = ('department',)
 
+
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'date_of_birth')
+    list_display = ('first_name', 'last_name', 'date_of_birth',)
     search_fields = ('first_name', 'last_name')
     list_filter = ('date_of_birth',)
 
+
 @admin.register(Parent)
 class ParentAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name')
+    list_display = ('first_name', 'last_name',)
     search_fields = ('first_name', 'last_name')
+
 
 @admin.register(Subject)
 class SubjectAdmin(admin.ModelAdmin):
-    list_display = ('name', 'code', 'department')
-    search_fields = ('name', 'code')
-    list_filter = ('department',)
+    list_display = ('subject_name', 'subject_code', 'subject_department',)
+    search_fields = ('subject_name', 'subject_code',)
+    list_filter = ('subject_department',)
+
 
 @admin.register(Class)
 class ClassAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
-    filter_horizontal = ('teachers', 'students')  # Assuming 'subjects' is not a field
+    filter_horizontal = ('students',)  # Removed 'teachers' if causing issues
+
 
 @admin.register(LectureNote)
 class LectureNoteAdmin(admin.ModelAdmin):
-    list_display = ('title', 'subject', 'teacher')
+    list_display = ('title', 'subject', 'teacher',)
     search_fields = ('title',)
-    list_filter = ('subject', 'teacher')
+    list_filter = ('subject', 'teacher',)
+
 
 @admin.register(Assignment)
 class AssignmentAdmin(admin.ModelAdmin):
-    list_display = ('title', 'subject', 'teacher', 'due_date')
+    list_display = ('title', 'subject', 'teacher', 'due_date',)
     search_fields = ('title',)
-    list_filter = ('subject', 'teacher', 'due_date')
+    list_filter = ('subject', 'teacher', 'due_date',)
+
 
 @admin.register(Quiz)
 class QuizAdmin(admin.ModelAdmin):
     list_display = ('title', 'subject', 'teacher')
     search_fields = ('title',)
-    list_filter = ('subject', 'teacher')
+    list_filter = ('subject', 'teacher',)
+
 
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
@@ -96,11 +108,13 @@ class VideoAdmin(admin.ModelAdmin):
     search_fields = ('title',)
     list_filter = ('subject', 'teacher')
 
+
 @admin.register(Result)
 class ResultAdmin(admin.ModelAdmin):
     list_display = ('student', 'subject', 'score')
     search_fields = ('student__first_name', 'student__last_name', 'subject__name')
     list_filter = ('subject',)
+
 
 @admin.register(Document)
 class DocumentAdmin(admin.ModelAdmin):

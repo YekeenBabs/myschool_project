@@ -1,0 +1,15 @@
+{% extends "myschool_app/student_base.html" %}
+
+{% block title %} View Video {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h2>{{ video.title }}</h2>
+    <p>{{ video.description }}</p>
+    <video controls>
+        <source src="{{ video.file.url }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</div>
+{% endblock %}

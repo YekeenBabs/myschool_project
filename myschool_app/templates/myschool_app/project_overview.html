@@ -1,0 +1,82 @@
+{% extends "myschool_app/teacher_base.html" %}
+
+{% block title %} Ansacad - Teacher - Grade - Project - Department {% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="row">
+        <div class="col">
+            <h3 class="page-title">Grade - Project - Overview</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'class_info' %}">Class</a></li>
+                <li class="breadcrumb-item active">Project</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <h1>Project Information</h1>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        {% for class_name, class_list in class_arms.items %}
+        <li class="nav-item">
+            <a class="nav-link {% if forloop.first %}active{% endif %}" id="{{ class_name }}-tab" data-toggle="tab"
+                href="#{{ class_name }}" role="tab" aria-controls="{{ class_name }}"
+                aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">{{ class_name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        {% for class_name, class_list in class_arms.items %}
+        <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="{{ class_name }}" role="tabpanel"
+            aria-labelledby="{{ class_name }}-tab">
+            {% for class_arm in class_list %}
+            <h3>{{ class_arm.name }}</h3>
+            <form method="POST" action="{% url 'project_overview_grading' %}">
+                {% csrf_token %}
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Serial No</th>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Personal Project</th>
+                            <th>Group Project</th>
+                            <th>Class Project</th>
+                            <th>Department Project</th>
+                            <th>Total Project Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ student.id }}</td>
+                            <td>{{ student.name }}</td>
+                            <td>{{ student.personal_project }}</td>
+                            <td>{{ student.group_project }}</td>
+                            <td>{{ student.class_project }}</td>
+                            <td>{{ student.department_project }}</td>
+                            <td>{{ student.personal_project + student.group_project + student.class_project + student.department_project }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function () {
+        $('#myTab a').on('click', function (e) {
+            e.preventDefault()
+            $(this).tab('show')
+        });
+    });
+</script>
+{% endblock %}

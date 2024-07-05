@@ -1,0 +1,98 @@
+{% extends "myschool_app/teacher_base.html" %}
+
+{% block title %} Ansacad - Teacher - Grade - Assignment {% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="row">
+        <div class="col">
+            <h3 class="page-title">Grade - Assignment</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'class_info' %}">Class</a></li>
+                <li class="breadcrumb-item active">Assignment</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <h1>Class Information</h1>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        {% for class_name, class_list in class_arms.items %}
+        <li class="nav-item">
+            <a class="nav-link {% if forloop.first %}active{% endif %}" id="{{ class_name }}-tab" data-toggle="tab"
+                href="#{{ class_name }}" role="tab" aria-controls="{{ class_name }}"
+                aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">{{ class_name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        {% for class_name, class_list in class_arms.items %}
+        <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="{{ class_name }}" role="tabpanel"
+            aria-labelledby="{{ class_name }}-tab">
+            {% for class_arm in class_list %}
+            <h3>{{ class_arm.name }}</h3>
+            <form method="POST" action="{% url 'grade_assignment' %}">
+                {% csrf_token %}
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Serial No</th>
+                                <th>Student ID</th>
+                                <th>Name</th>
+                                <th>Profile Pic</th>
+                                <th>AS1 (10 marks)</th>
+                                <th>AS2 (10 marks)</th>
+                                <th>AS3 (10 marks)</th>
+                                <th>AS4 (10 marks)</th>
+                                <th>AS5 (10 marks)</th>
+                                <th>AS6 (10 marks)</th>
+                                <th>AS7 (10 marks)</th>
+                                <th>AS8 (10 marks)</th>
+                                <th>AS9 (10 marks)</th>
+                                <th>AS10 (10 marks)</th>
+                                <th>Total Assignment (100 marks)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in class_arm.student_set.all %}
+                            <tr>
+                                <td data-label="Serial No">{{ forloop.counter }}</td>
+                                <td data-label="Student ID">{{ student.student_id }}</td>
+                                <td data-label="Name">{{ student.name }}</td>
+                                <td data-label="Profile Pic"><img src="{{ student.profile_pic.url }}" alt="{{ student.name }}" width="50"></td>
+                                <td data-label="AS1 (10 marks)"><input type="number" class="input-box" name="as1_{{ student.id }}" max="10" value="{{ student.as1 }}"></td>
+                                <td data-label="AS2 (10 marks)"><input type="number" class="input-box" name="as2_{{ student.id }}" max="10" value="{{ student.as2 }}"></td>
+                                <td data-label="AS3 (10 marks)"><input type="number" class="input-box" name="as3_{{ student.id }}" max="10" value="{{ student.as3 }}"></td>
+                                <td data-label="AS4 (10 marks)"><input type="number" class="input-box" name="as4_{{ student.id }}" max="10" value="{{ student.as4 }}"></td>
+                                <td data-label="AS5 (10 marks)"><input type="number" class="input-box" name="as5_{{ student.id }}" max="10" value="{{ student.as5 }}"></td>
+                                <td data-label="AS6 (10 marks)"><input type="number" class="input-box" name="as6_{{ student.id }}" max="10" value="{{ student.as6 }}"></td>
+                                <td data-label="AS7 (10 marks)"><input type="number" class="input-box" name="as7_{{ student.id }}" max="10" value="{{ student.as7 }}"></td>
+                                <td data-label="AS8 (10 marks)"><input type="number" class="input-box" name="as8_{{ student.id }}" max="10" value="{{ student.as8 }}"></td>
+                                <td data-label="AS9 (10 marks)"><input type="number" class="input-box" name="as9_{{ student.id }}" max="10" value="{{ student.as9 }}"></td>
+                                <td data-label="AS10 (10 marks)"><input type="number" class="input-box" name="as10_{{ student.id }}" max="10" value="{{ student.as10 }}"></td>
+                                <td data-label="Total Assignment (100 marks)">{{ student.total_assignment }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function(){
+        $('#myTab a').on('click', function (e) {
+            e.preventDefault()
+            $(this).tab('show')
+        });
+    });
+</script>
+{% endblock %}

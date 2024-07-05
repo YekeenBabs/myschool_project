@@ -1,0 +1,77 @@
+{% extends "myschool_app/teacher_base.html" %}
+
+{% block title %} Ansacad - Teacher - Class Information {% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Class Information</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'class_info' %}">Class</a></li>
+                <li class="breadcrumb-item active">Basic Information</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <h1>Class Information</h1>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        {% for class_name, class_list in class_arms.items %}
+            <li class="nav-item">
+                <a class="nav-link {% if forloop.first %}active{% endif %}" id="{{ class_name }}-tab" data-bs-toggle="tab" href="#{{ class_name }}" role="tab" aria-controls="{{ class_name }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">{{ class_name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        {% for class_name, class_list in class_arms.items %}
+            <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="{{ class_name }}" role="tabpanel" aria-labelledby="{{ class_name }}-tab">
+                {% for class_arm in class_list %}
+                    <h3>{{ class_arm.name }}</h3>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Serial Number</th>
+                                <th>Student ID</th>
+                                <th>Name</th>
+                                <th>Profile Pic</th>
+                                <th>Assigned Class</th>
+                                <th>Date Of Birth</th>
+                                <th>Parent Name</th>
+                                <th>Mobile Number</th>
+                                <th>Address</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in class_arm.student_set.all %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ student.student_id }}</td>
+                                    <td>{{ student.name }}</td>
+                                    <td><img src="{{ student.profile_pic.url }}" alt="{{ student.name }}" width="50"></td>
+                                    <td>{{ student.class_assigned }}</td>
+                                    <td>{{ student.date_of_birth }}</td>
+                                    <td>{{ student.parent_name }}</td>
+                                    <td>{{ student.mobile_number }}</td>
+                                    <td>{{ student.address }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function(){
+        $('#myTab a').on('click', function (e) {
+            e.preventDefault()
+            $(this).tab('show')
+        });
+    });
+</script>
+{% endblock %}

@@ -139,7 +139,8 @@ class UserProfile(models.Model):
 
 
 class Department(models.Model):
-    name = models.CharField(max_length=255, default="Default Department")  # Ensure this field exists
+    # Ensure this field exists
+    name = models.CharField(max_length=255, default="Default Department")
     department_id = models.CharField(max_length=20, unique=True)
     department_name = models.CharField(max_length=100)
     head_of_department = models.CharField(max_length=100)
@@ -152,17 +153,18 @@ class Department(models.Model):
 
 
 class Subject(models.Model):
-    name = models.CharField(max_length=100)
+    subject_name = models.CharField(max_length=100)
     assigned_teacher = models.ManyToManyField(
-        'Teacher', related_name='assigned_subjects')
+        'Teacher', related_name='assigned_subjects', through='TeacherSubjectClass')
     created_at = models.DateTimeField(auto_now_add=True)
-    code = models.CharField(max_length=10)
-    department = models.ForeignKey(Department, on_delete=models.CASCADE)
-
-    # teachers = models.ManyToManyField('Teacher')
+    subject_code = models.CharField(max_length=10)
+    subject_department = models.ForeignKey(
+        Department, on_delete=models.CASCADE)
+    no_of_students = models.PositiveIntegerField(default=0)
+    description = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.name
+        return self.subject_name
 
     def get_assigned_teachers(self):
         return ", ".join([teacher.name for teacher in self.assigned_teacher.all()])
@@ -182,7 +184,7 @@ class Class(models.Model):
     students = models.ManyToManyField(
         'Student', related_name='enrolled_classes')
     teachers = models.ManyToManyField(
-        'Teacher', blank=True, related_name='teaching_classes')
+        'Teacher', blank=True, related_name='teaching_classes', through='TeacherClass', through_fields=('class_assigned', 'teacher'))
     description = models.TextField(blank=True)
     resources = models.URLField(blank=True)
     materials_list = models.TextField(blank=True)
@@ -193,6 +195,32 @@ class Class(models.Model):
 
     def __str__(self):
         return self.name
+
+# class Class(models.Model):
+    # name = models.CharField(max_length=100)
+    # subject = models.ManyToManyField(
+    #     'Subject', related_name='classes', blank=True)
+    # grade_level = models.CharField(max_length=50, blank=True)
+    # section = models.CharField(max_length=10, blank=True)
+    # start_date = models.DateField(blank=True, null=True)
+    # end_date = models.DateField(blank=True, null=True)
+    # meeting_time = models.CharField(max_length=100, blank=True)
+    # classroom = models.CharField(max_length=100, blank=True)
+    # capacity = models.IntegerField(blank=True, null=True)
+    # students = models.ManyToManyField(
+    #     'Student', related_name='enrolled_classes')
+    # teachers = models.ManyToManyField(
+    #     'Teacher', blank=True, related_name='teaching_classes', through='TeacherClass')
+    # description = models.TextField(blank=True)
+    # resources = models.URLField(blank=True)
+    # materials_list = models.TextField(blank=True)
+    # total_students = models.IntegerField(default=0)
+    # total_lessons = models.IntegerField(default=0)
+    # duration = models.IntegerField(default=0)
+    # total_hours = models.IntegerField(default=0)
+
+    # def __str__(self):
+        # return self.name
 
 
 class Teacher(models.Model):
@@ -242,14 +270,28 @@ class TeacherSubjectClass(models.Model):
 
 
 class TeacherClass(models.Model):
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-    class_assigned = models.ForeignKey(Class, on_delete=models.CASCADE)
+    teacher = models.ForeignKey('Teacher', on_delete=models.CASCADE)
+    class_assigned = models.ForeignKey(
+        'Class', on_delete=models.CASCADE, related_name='class_assigned')
+    school_class = models.ForeignKey(
+        'Class', on_delete=models.CASCADE, related_name='school_class', default=1)
 
     class Meta:
         db_table = 'teacher_class'
 
     def __str__(self):
-        return f"{self.teacher} - {self.class_assigned}"
+        return f'{self.teacher} - {self.class_assigned}'
+
+# class TeacherClass(models.Model):
+#     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+#     class_assigned = models.ForeignKey(Class, on_delete=models.CASCADE)
+#     school_class = models.ForeignKey('Class', on_delete=models.CASCADE)
+
+#     class Meta:
+#         db_table = 'teacher_class'
+
+#     def __str__(self):
+#         return f"{self.teacher} - {self.class_assigned}"
 
 
 class Lesson(models.Model):
@@ -332,9 +374,18 @@ class Notification(models.Model):
         return f"Notification for {self.recipient.email} - Read: {self.is_read}"
 
 
+class SchoolClass(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
 class ClassArm(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=5)
     students = models.ManyToManyField('Student', related_name='class_arms')
+    school_class = models.ForeignKey(
+        SchoolClass, on_delete=models.CASCADE, default=1)
 
 
 class Student(models.Model):
@@ -488,13 +539,6 @@ class StudentProgress(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     document = models.ForeignKey(Document, on_delete=models.CASCADE)
     viewed = models.BooleanField(default=False)
-
-
-class SchoolClass(models.Model):
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
 
 
 class Course(models.Model):

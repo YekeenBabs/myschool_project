@@ -1,0 +1,56 @@
+{% extends "myschool_app/teacher_base.html" %}
+
+{% block title %} Ansacad - Teacher - Assign Students {% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-sub-header">
+                <h3 class="page-title">Assign Students to Project</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'teacher_index' %}">Home</a></li>
+                    <li class="breadcrumb-item active">Assign Students</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <label for="project_id">Select Project:</label>
+        <select name="project_id" id="project_id">
+            {% for project in projects %}
+            <option value="{{ project.id }}">{{ project.title }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        <label for="students">Select Students:</label>
+        {% for student in students %}
+        <div>
+            <input type="checkbox" name="students" value="{{ student.id }}">
+            <label>{{ student.username }}</label>
+        </div>
+        {% endfor %}
+    </div>
+    <button type="submit">Assign</button>
+</form>
+
+
+<!-- <div class="container">
+    <h2>Assign Students to {{ project.title }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% for student in students %}
+            <div>
+                <input type="checkbox" name="students" value="{{ student.id }}">
+                <label>{{ student.username }}</label>
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Assign</button>
+    </form>
+</div> -->
+{% endblock %}

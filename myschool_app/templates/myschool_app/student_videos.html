@@ -1,0 +1,97 @@
+{% extends "myschool_app/student_base.html" %}
+
+{% block title %} View Lecture Videos {% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-sub-header">
+                <h3 class="page-title">Lecture Material</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'student_index' %}">Home</a></li>
+                    <li class="breadcrumb-item active">Video</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if notifications %}
+<div class="alert alert-info">
+    <strong>New Documents Uploaded:</strong>
+    <ul>
+        {% for notification in notifications %}
+        <li>{{ notification.message }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<div class="accordion" id="accordionExample">
+    {% for subject, videos in videos_by_subject.items %}
+    <div class="card">
+        <div class="card-header" id="heading{{ forloop.counter }}">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                    data-target="#collapse{{ forloop.counter }}" aria-expanded="true"
+                    aria-controls="collapse{{ forloop.counter }}">
+                    {{ subject }}
+                </button>
+            </h2>
+        </div>
+        <div id="collapse{{ forloop.counter }}" class="collapse {% if forloop.first %}show{% endif %}"
+            aria-labelledby="heading{{ forloop.counter }}" data-parent="#accordionExample">
+            <div class="card-body">
+                {% for video in videos %}
+                <div class="video-item">
+                    <h5>{{ video.title }}</h5>
+                    <p>{{ video.description }}</p>
+                    <a href="{% url 'view_video' video.id %}">Watch Video</a>
+                    {% if progress_dict|get_item:video.id %}
+                    <span class="badge badge-success">Viewed</span>
+                    {% endif %}
+                    <hr>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="accordion" id="accordionExample">
+    {% for week, docs in documents|dictsort:"week"|groupby:"week" %}
+        <div class="card">
+            <div class="card-header" id="heading{{ week }}">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left" type="button"
+                            data-toggle="collapse" data-target="#collapse{{ week }}" aria-expanded="true"
+                            aria-controls="collapse{{ week }}" 
+                            {% if not progress_dict.get(previous_week_id) %} disabled {% endif %}>
+                        Week {{ week }}
+                    </button>
+                </h2>
+            </div>
+            <div id="collapse{{ week }}" class="collapse" aria-labelledby="heading{{ week }}"
+                 data-parent="#accordionExample">
+                <div class="card-body">
+                    <ul class="list-group">
+                        {% for document in docs %}
+                            <li class="list-group-item">
+                                <h5>{{ document.title }}</h5>
+                                <p>{{ document.description }}</p>
+                                <a href="{% url 'view_document' document.id %}" class="btn btn-primary"
+                                   {% if not progress_dict.get(document.id) and week != 1 %} disabled {% endif %}>
+                                   View Document
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

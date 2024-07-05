@@ -1,0 +1,26 @@
+{% load custom_filters %}
+<!-- assign_subjects.html -->
+{% extends "admin_base.html" %} {% load static %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+{% block content %}
+<div class="container">
+  <h2>Assign Subjects to Teacher</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="{{ form.teacher.id_for_label }}">Teacher:</label>
+      {{ form.teacher.errors }} {{ form.teacher|add_class:"form-control" }}
+    </div>
+    <div class="form-group">
+      <label for="{{ form.subject.id_for_label }}">Subject:</label>
+      {{ form.subject.errors }} {{ form.subject|add_class:"form-control" }}
+    </div>
+    <div class="form-group">
+      <label for="{{ form.class_assigned.id_for_label }}">Class:</label>
+      {{ form.class_assigned.errors }} {{
+      form.class_assigned|add_class:"form-control" }}
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+{% endblock %}
