@@ -1,10 +1,10 @@
 from django.contrib import admin
 from .models import (
-    CustomUser, Department, Class, Document,
+    CustomUser, Department, Class, LectureVideo,
     Student, Teacher, Subject, Quiz, Question,
     Option, Notification, StudentQuizAttempt,
     TeacherSubjectClass, TeacherClass, Attendance,
-    LectureNote, Assignment, Video, Result, Parent,
+    LectureNote, Assignment, Result, Parent,
     UserProfile
 )
 from django.utils import timezone
@@ -83,9 +83,9 @@ class ClassAdmin(admin.ModelAdmin):
 
 @admin.register(LectureNote)
 class LectureNoteAdmin(admin.ModelAdmin):
-    list_display = ('title', 'subject', 'teacher',)
-    search_fields = ('title',)
-    list_filter = ('subject', 'teacher',)
+    list_display = ('title', 'subject', 'class_associated', 'teacher', 'document_week', 'uploaded_at')
+    search_fields = ('title', 'description')
+    list_filter = ('subject', 'class_associated', 'teacher', 'document_week', 'uploaded_at')
 
 
 @admin.register(Assignment)
@@ -102,7 +102,7 @@ class QuizAdmin(admin.ModelAdmin):
     list_filter = ('subject', 'teacher',)
 
 
-@admin.register(Video)
+@admin.register(LectureVideo)
 class VideoAdmin(admin.ModelAdmin):
     list_display = ('title', 'subject', 'teacher')
     search_fields = ('title',)
@@ -116,8 +116,5 @@ class ResultAdmin(admin.ModelAdmin):
     list_filter = ('subject',)
 
 
-@admin.register(Document)
-class DocumentAdmin(admin.ModelAdmin):
-    list_display = ('title', 'subject', 'class_associated', 'teacher', 'document_week', 'uploaded_at')
-    search_fields = ('title', 'description')
-    list_filter = ('subject', 'class_associated', 'teacher', 'document_week', 'uploaded_at')
+
+    

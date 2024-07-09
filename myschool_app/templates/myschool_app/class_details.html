@@ -1,1 +1,13 @@
 <!--- this is used to display lists of students in a class for a student to see his or her classmates on the student dashboard -->
+{% extends 'admin_base.html' %} 
+{% load static %} 
+
+{% block title %} 
+Ansacad - Student - Class Details 
+{%endblock %} 
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'myschool_app/css/teacher_style.css' %}" />
+{% endblock %} 
+
+{% block content %}

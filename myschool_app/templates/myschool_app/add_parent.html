@@ -1,0 +1,221 @@
+{% extends 'admin_base.html' %} 
+{% load static %} 
+
+{% block title %} 
+Ansacad - Admin - Add Parent 
+{%endblock %} 
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'myschool_app/css/teacher_style.css' %}" />
+{% endblock %} 
+
+{% block content %}
+
+<div class="page-header">
+  <div class="row align-items-center">
+    <div class="col">
+      <h3 class="page-title">Add Parents</h3>
+      <ul class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="{% url 'parents' %}">Parents</a>
+        </li>
+        <li class="breadcrumb-item active">Add Parents</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-body">
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %} {{ form.non_field_errors }}
+
+          <div class="row">
+            <div class="col-12">
+              <h5 class="form-title"><span>Basic Details</span></h5>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                <label for="parent_id"
+                  >Parent ID <span class="login-danger">*</span></label
+                >
+                {{ form.parent_id }}
+              </div>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                <label for="first_name"
+                  >First Name <span class="login-danger">*</span></label
+                >
+                {{ form.first_name }}
+              </div>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                <label for="last_name"
+                  >Last Name <span class="login-danger">*</span></label
+                >
+                {{ form.last_name }}
+              </div>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                <label for="middle_name"
+                  >Middle Name <span class="login-danger">*</span></label
+                >
+                {{ form.middle_name }}
+              </div>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                <label for="gender"
+                  >Gender <span class="login-danger">*</span></label
+                >
+                {{ form.gender }}
+              </div>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms calendar-icon">
+                <label for="date_of_birth"
+                  >Date Of Birth <span class="login-danger">*</span></label
+                >
+                {{ form.date_of_birth }}
+              </div>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                <label for="mobile"
+                  >Mobile <span class="login-danger">*</span></label
+                >
+                {{ form.mobile }}
+              </div>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms calendar-icon">
+                <label for="joining_date"
+                  >Joining Date <span class="login-danger">*</span></label
+                >
+                {{ form.joining_date }}
+              </div>
+            </div>
+            <div class="col-12 col-sm-4 local-forms">
+              <div class="form-group">
+                <label for="qualification"
+                  >Qualification <span class="login-danger">*</span></label
+                >
+                {{ form.qualification }}
+              </div>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                <label for="duties"
+                  >Duties <span class="login-danger">*</span></label
+                >
+                {{ form.duties }}
+              </div>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                <label for="class_assignment">Class Assignment</label>
+                {{ form.class_assignment }}
+              </div>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                <label for="class_arms">Class Arms</label>
+                {{ form.class_arms }}
+              </div>
+            </div>
+            <div class="col-12">
+              <h5 class="form-title"><span>Login Details</span></h5>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                <label for="username"
+                  >Username <span class="login-danger">*</span></label
+                >
+                {{ form.username }}
+              </div>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                <label for="email"
+                  >Email ID <span class="login-danger">*</span></label
+                >
+                {{ form.email }}
+              </div>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                <label for="password"
+                  >Password <span class="login-danger">*</span></label
+                >
+                {{ form.password }}
+              </div>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                <label for="password2"
+                  >Repeat Password <span class="login-danger">*</span></label
+                >
+                {{ form.password2 }}
+              </div>
+            </div>
+            <div class="col-12">
+              <h5 class="form-title"><span>Address</span></h5>
+            </div>
+            <div class="col-12">
+              <div class="form-group local-forms">
+                <label for="address"
+                  >Address <span class="login-danger">*</span></label
+                >
+                {{ form.address }}
+              </div>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                <label for="city"
+                  >City <span class="login-danger">*</span></label
+                >
+                {{ form.city }}
+              </div>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                <label for="state"
+                  >State <span class="login-danger">*</span></label
+                >
+                {{ form.state }}
+              </div>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                <label for="zip_code"
+                  >Zip Code <span class="login-danger">*</span></label
+                >
+                {{ form.zip_code }}
+              </div>
+            </div>
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                <label for="country"
+                  >Country <span class="login-danger">*</span></label
+                >
+                {{ form.country }}
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="student-submit">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

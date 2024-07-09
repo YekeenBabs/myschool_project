@@ -2,6 +2,10 @@
 
 {% block title %} View Assignment {% endblock %}
 
+{% block css_files%}
+<link rel="stylesheet" href="{% static 'myschool_app/css/teacher_style.css' %}">
+{% endblock%}
+
 {% block content %}
 
 {% for document in documents %}

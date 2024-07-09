@@ -1,5 +1,16 @@
-{% extends 'admin_base.html' %} {% block title %} Ansacad - Admin - Add
-Department {% endblock %} {% block content %}
+{% extends 'admin_base.html' %} 
+{% load static %} 
+
+{% block title %} 
+Ansacad - Admin - Add Department 
+{%endblock %} 
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'myschool_app/css/teacher_style.css' %}" />
+{% endblock %} 
+
+{% block content %}
+
 <div class="page-header">
   <div class="row align-items-center">
     <div class="col">
@@ -114,4 +125,5 @@ Department {% endblock %} {% block content %}
     </div>
   </div>
 </div>
+
 {% endblock %}

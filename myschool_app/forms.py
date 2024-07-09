@@ -4,7 +4,7 @@ from django.contrib.auth.forms import (
     UserCreationForm, AuthenticationForm, PasswordChangeForm, PasswordResetForm
 )
 from .models import (
-    Student, CustomUser, Quiz, Question, Option, Answer, Document, Teacher, Skill,
+    Student, CustomUser, Quiz, Question, Option, Answer, Teacher, Skill,
     Lesson, Event, ClassArm, Grade, Submission, Project, LectureVideo, Assignment,
     Department, Subject, Class, TeacherSubjectClass
 )
@@ -49,8 +49,6 @@ class DepartmentForm(forms.ModelForm):
                   'start_date', 'number_of_students', 'description']
 
 # subject form
-
-
 class SubjectForm(forms.ModelForm):
     class Meta:
         model = Subject
@@ -61,9 +59,9 @@ class SubjectForm(forms.ModelForm):
         }
 
 # teacher form
-
-
 class TeacherForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
+    confirm_password = forms.CharField(widget=forms.PasswordInput)
     class Meta:
         model = Teacher
         fields = [
@@ -80,9 +78,6 @@ class TeacherForm(forms.ModelForm):
             'classes': forms.CheckboxSelectMultiple(),
         }
 
-    password = forms.CharField(widget=forms.PasswordInput)
-    confirm_password = forms.CharField(widget=forms.PasswordInput)
-
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get("password")
@@ -92,7 +87,7 @@ class TeacherForm(forms.ModelForm):
             raise forms.ValidationError("Passwords do not match.")
 
     def save(self, commit=True):
-        user = User.objects.create_user(
+        user = user.objects.create_user(
             username=self.cleaned_data['email'],
             email=self.cleaned_data['email'],
             password=self.cleaned_data['password'],

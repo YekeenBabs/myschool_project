@@ -1,5 +1,16 @@
-{% extends 'admin_base.html' %} {% block title %} Ansacad - Admin - Add Subject
-{% endblock %} {% block content %}
+{% extends 'admin_base.html' %} 
+{% load static %} 
+
+{% block title %} 
+Ansacad - Admin - Add Subject 
+{%endblock %} 
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'myschool_app/css/teacher_style.css' %}" />
+{% endblock %} 
+
+{% block content %}
+
 <div class="page-header">
   <div class="row align-items-center">
     <div class="col">
@@ -24,7 +35,6 @@
           action="{% url 'add_subject' %}"
         >
           {% csrf_token %}
-
           <div class="row">
             <div class="col-12">
               <h5 class="form-title"><span>Subject Information</span></h5>
@@ -32,72 +42,80 @@
 
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label>Subject Code <span class="login-danger">*</span></label>
-                <input type="text" name="code" class="form-control" required />
-              </div>
-            </div>
-
-            <div class="col-12 col-sm-4">
-              <div class="form-group local-forms">
-                <label>Subject Name <span class="login-danger">*</span></label>
-                <input type="text" name="name" class="form-control" required />
-              </div>
-            </div>
-
-            <div class="col-12 col-sm-4">
-              <div class="form-group local-forms">
-                <label>Department <span class="login-danger">*</span></label>
-                <select name="department" class="form-control" required>
-                  <option value="" disabled selected>Select Department</option>
-                  {% for department in departments %}
-                  <option value="{{ department.id }}">
-                    {{ department.name }}
-                  </option>
+                {{ form.code.label_tag }} {{ form.code }} {% if form.code.errors
+                %}
+                <div class="invalid-feedback">
+                  {% for error in form.code.errors %}
+                  <span>{{ error }}</span><br />
                   {% endfor %}
-                </select>
+                </div>
+                {% endif %}
               </div>
             </div>
 
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label
-                  >Assigned Teachers <span class="login-danger">*</span></label
-                >
-                <select
-                  name="assigned_teachers"
-                  class="form-control"
-                  multiple
-                  required
-                >
-                  {% for teacher in teachers %}
-                  <option value="{{ teacher.id }}">{{ teacher.name }}</option>
+                {{ form.name.label_tag }} {{ form.name }} {% if form.name.errors
+                %}
+                <div class="invalid-feedback">
+                  {% for error in form.name.errors %}
+                  <span>{{ error }}</span><br />
                   {% endfor %}
-                </select>
+                </div>
+                {% endif %}
               </div>
             </div>
 
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label
-                  >No of Students <span class="login-danger">*</span></label
-                >
-                <input
-                  type="text"
-                  name="number_of_students"
-                  class="form-control"
-                  required
-                />
+                {{ form.department.label_tag }} {{ form.department }} {% if
+                form.department.errors %}
+                <div class="invalid-feedback">
+                  {% for error in form.department.errors %}
+                  <span>{{ error }}</span><br />
+                  {% endfor %}
+                </div>
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                {{ form.assigned_teachers.label_tag }} {{ form.assigned_teachers
+                }} {% if form.assigned_teachers.errors %}
+                <div class="invalid-feedback">
+                  {% for error in form.assigned_teachers.errors %}
+                  <span>{{ error }}</span><br />
+                  {% endfor %}
+                </div>
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-4">
+              <div class="form-group local-forms">
+                {{ form.number_of_students.label_tag }} {{
+                form.number_of_students }} {% if form.number_of_students.errors
+                %}
+                <div class="invalid-feedback">
+                  {% for error in form.number_of_students.errors %}
+                  <span>{{ error }}</span><br />
+                  {% endfor %}
+                </div>
+                {% endif %}
               </div>
             </div>
 
             <div class="col-12">
               <div class="form-group local-forms">
-                <label>Description</label>
-                <textarea
-                  name="description"
-                  class="form-control"
-                  rows="3"
-                ></textarea>
+                {{ form.description.label_tag }} {{ form.description }} {% if
+                form.description.errors %}
+                <div class="invalid-feedback">
+                  {% for error in form.description.errors %}
+                  <span>{{ error }}</span><br />
+                  {% endfor %}
+                </div>
+                {% endif %}
               </div>
             </div>
 
@@ -112,4 +130,5 @@
     </div>
   </div>
 </div>
+
 {% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'admin_base.html' %} {% block title %}Ansacad - Admin - Teacher
+Grid{% endblock %} {% block content %}
+<div class="page-wrapper">
+  <div class="content container-fluid">
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="page-sub-header">
+            <h3 class="page-title">Teacher Grid</h3>
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="teachers.html">Teacher</a>
+              </li>
+              <li class="breadcrumb-item active">Teacher Grid</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add a download button here -->
+    <div class="row mb-3">
+      <div class="col-sm-12">
+        <a href="{% url 'download_teachers' %}" class="btn btn-primary"
+          >Download Teachers CSV</a
+        >
+      </div>
+    </div>
+
+    <div class="row">
+      {% for teacher in teachers %}
+      <div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="profile-box">
+              <div class="profile-box-img">
+                <img src="{{ teacher.profile_img_url }}" alt="Profile Image" />
+              </div>
+              <div class="names-profiles">
+                <h4>{{ teacher.name }}</h4>
+                <h5>{{ teacher.class_name }}</h5>
+                <h5>{{ teacher.department }}</h5>
+              </div>
+              <a
+                href="{% url 'teacher_details' teacher.id %}"
+                class="btn btn-info"
+                >View Details</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,12 +1,12 @@
-{% extends 'admin_base.html' %} {% block title %} Ansacad - Admin - Edit Subject
-{% endblock %} {% block content %}
+{% extends 'admin_base.html' %} {% load static %} {% block title %}Ansacad -
+Admin - Edit Subject{% endblock %} {% block content %}
 <div class="page-header">
   <div class="row align-items-center">
     <div class="col">
       <h3 class="page-title">Edit Subject</h3>
       <ul class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="{% url 'subjects' %}">Subject</a>
+          <a href="{% url 'subjects' %}">Subjects</a>
         </li>
         <li class="breadcrumb-item active">Edit Subject</li>
       </ul>
@@ -32,47 +32,80 @@
 
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label>Subject Code <span class="login-danger">*</span></label>
-                {{ form.subject_code }}
+                {{ form.subject_code.label_tag }} {{ form.subject_code }} {% if
+                form.subject_code.errors %}
+                <div class="invalid-feedback">
+                  {% for error in form.subject_code.errors %}
+                  <span>{{ error }}</span><br />
+                  {% endfor %}
+                </div>
+                {% endif %}
               </div>
             </div>
 
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label>Subject Name <span class="login-danger">*</span></label>
-                {{ form.subject_name }}
+                {{ form.subject_name.label_tag }} {{ form.subject_name }} {% if
+                form.subject_name.errors %}
+                <div class="invalid-feedback">
+                  {% for error in form.subject_name.errors %}
+                  <span>{{ error }}</span><br />
+                  {% endfor %}
+                </div>
+                {% endif %}
               </div>
             </div>
 
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label>Department <span class="login-danger">*</span></label>
-                {{ form.subject_department }}
+                {{ form.subject_department.label_tag }} {{
+                form.subject_department }} {% if form.subject_department.errors
+                %}
+                <div class="invalid-feedback">
+                  {% for error in form.subject_department.errors %}
+                  <span>{{ error }}</span><br />
+                  {% endfor %}
+                </div>
+                {% endif %}
               </div>
             </div>
 
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label
-                  >Assigned Teachers <span class="login-danger">*</span></label
-                >
-                {{ form.assigned_teacher }}
+                {{ form.assigned_teacher.label_tag }} {{ form.assigned_teacher
+                }} {% if form.assigned_teacher.errors %}
+                <div class="invalid-feedback">
+                  {% for error in form.assigned_teacher.errors %}
+                  <span>{{ error }}</span><br />
+                  {% endfor %}
+                </div>
+                {% endif %}
               </div>
             </div>
 
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label
-                  >No of Students <span class="login-danger">*</span></label
-                >
-                {{ form.no_of_students }}
+                {{ form.no_of_students.label_tag }} {{ form.no_of_students }} {%
+                if form.no_of_students.errors %}
+                <div class="invalid-feedback">
+                  {% for error in form.no_of_students.errors %}
+                  <span>{{ error }}</span><br />
+                  {% endfor %}
+                </div>
+                {% endif %}
               </div>
             </div>
 
             <div class="col-12">
               <div class="form-group local-forms">
-                <label>Description</label>
-                {{ form.description }}
+                {{ form.description.label_tag }} {{ form.description }} {% if
+                form.description.errors %}
+                <div class="invalid-feedback">
+                  {% for error in form.description.errors %}
+                  <span>{{ error }}</span><br />
+                  {% endfor %}
+                </div>
+                {% endif %}
               </div>
             </div>
 

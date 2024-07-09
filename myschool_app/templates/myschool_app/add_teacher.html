@@ -1,11 +1,20 @@
-{% extends "myschool_app/admin_base.html" %} {% block title %} Ansacad - Admin -
-Add Teacher{% endblock %} {% block content %}
+{% extends 'admin_base.html' %} 
+{% load static %}
+
+{% block title %} 
+Ansacad - Admin - Add Teacher 
+{%endblock %} 
+
+{% block css_files %}
+   <link rel="stylesheet" href="{% static 'myschool_app/css/teacher_style.css' %}">
+{% endblock %}
+
+{% block content %}
 
 <div class="page-header">
   <div class="row align-items-center">
     <div class="col">
       <h3 class="page-title">Add Teachers</h3>
-
       <ul class="breadcrumb">
         <li class="breadcrumb-item">
           <a href="{% url 'teachers' %}">Teachers</a>
@@ -21,275 +30,192 @@ Add Teacher{% endblock %} {% block content %}
     <div class="card">
       <div class="card-body">
         <form method="POST" enctype="multipart/form-data">
-          {% csrf_token %}
+          {% csrf_token %} {{ form.non_field_errors }}
 
           <div class="row">
             <div class="col-12">
               <h5 class="form-title"><span>Basic Details</span></h5>
             </div>
-
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label>Teacher ID <span class="login-danger">*</span></label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Teacher ID"
-                />
+                <label for="teacher_id"
+                  >Teacher ID <span class="login-danger">*</span></label
+                >
+                {{ form.teacher_id }}
               </div>
             </div>
-
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label>First Name <span class="login-danger">*</span></label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Enter First Name"
-                />
+                <label for="first_name"
+                  >First Name <span class="login-danger">*</span></label
+                >
+                {{ form.first_name }}
               </div>
             </div>
-
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label>Last Name <span class="login-danger">*</span></label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Enter Last Name"
-                />
+                <label for="last_name"
+                  >Last Name <span class="login-danger">*</span></label
+                >
+                {{ form.last_name }}
               </div>
             </div>
-
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label>Middle Name <span class="login-danger">*</span></label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Enter Middle Name"
-                />
+                <label for="middle_name"
+                  >Middle Name <span class="login-danger">*</span></label
+                >
+                {{ form.middle_name }}
               </div>
             </div>
-
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label>Gender <span class="login-danger">*</span></label>
-
-                <select class="form-control select">
-                  <option selected disabled hidden>Select Gender</option>
-                  <option>Male</option>
-                  <option>Female</option>
-                  <option>Others</option>
-                </select>
+                <label for="gender"
+                  >Gender <span class="login-danger">*</span></label
+                >
+                {{ form.gender }}
               </div>
             </div>
-
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms calendar-icon">
-                <label>Date Of Birth <span class="login-danger">*</span></label>
-                <input
-                  class="form-control datetimepicker"
-                  type="text"
-                  placeholder="DD-MM-YYYY"
-                />
+                <label for="date_of_birth"
+                  >Date Of Birth <span class="login-danger">*</span></label
+                >
+                {{ form.date_of_birth }}
               </div>
             </div>
-
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label>Mobile <span class="login-danger">*</span></label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Enter Phone"
-                />
+                <label for="mobile"
+                  >Mobile <span class="login-danger">*</span></label
+                >
+                {{ form.mobile }}
               </div>
             </div>
-
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms calendar-icon">
-                <label>Joining Date <span class="login-danger">*</span></label>
-                <input
-                  class="form-control datetimepicker"
-                  type="text"
-                  placeholder="DD-MM-YYYY"
-                />
+                <label for="joining_date"
+                  >Joining Date <span class="login-danger">*</span></label
+                >
+                {{ form.joining_date }}
               </div>
             </div>
-
             <div class="col-12 col-sm-4 local-forms">
               <div class="form-group">
-                <label>Qualification <span class="login-danger">*</span></label>
-                <input
-                  class="form-control"
-                  type="text"
-                  placeholder="Enter Joining Date"
-                />
+                <label for="qualification"
+                  >Qualification <span class="login-danger">*</span></label
+                >
+                {{ form.qualification }}
               </div>
             </div>
-
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label>Duties <span class="login-danger">*</span></label>
-
-                <select class="form-control select">
-                  <option selected disabled hidden>Select Duties</option>
-                  <option>Class Teacher</option>
-                  <option>Ass. Class Teacher</option>
-                  <option>None</option>
-                </select>
+                <label for="duties"
+                  >Duties <span class="login-danger">*</span></label
+                >
+                {{ form.duties }}
               </div>
             </div>
-
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label> Class Assignment</label>
-
-                <select class="form-control select">
-                  <option selected disabled hidden>Select Class</option>
-                  <option>J. S. S. 1</option>
-                  <option>J.S.S. 2</option>
-                  <option>J. S. S. 3</option>
-                  <option>S. S. S. 1</option>
-                  <option>S.S.S. 2</option>
-                  <option>S. S. S. 3</option>
-                </select>
+                <label for="class_assignment">Class Assignment</label>
+                {{ form.class_assignment }}
               </div>
             </div>
-
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label> Class Arms </label>
-
-                <select class="form-control select">
-                  <option selected disabled hidden>Select Class Arm</option>
-                  <option>A</option>
-                  <option>B</option>
-                  <option>C</option>
-                </select>
+                <label for="class_arms">Class Arms</label>
+                {{ form.class_arms }}
               </div>
             </div>
-
             <div class="col-12">
               <h5 class="form-title"><span>Login Details</span></h5>
             </div>
-
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label>Username <span class="login-danger">*</span></label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Enter Username"
-                />
+                <label for="username"
+                  >Username <span class="login-danger">*</span></label
+                >
+                {{ form.username }}
               </div>
             </div>
-
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label>Email ID <span class="login-danger">*</span></label>
-                <input
-                  type="email"
-                  class="form-control"
-                  placeholder="Enter Mail Id"
-                />
+                <label for="email"
+                  >Email ID <span class="login-danger">*</span></label
+                >
+                {{ form.email }}
               </div>
             </div>
-
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label>Password <span class="login-danger">*</span></label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Enter Password"
-                />
+                <label for="password"
+                  >Password <span class="login-danger">*</span></label
+                >
+                {{ form.password }}
               </div>
             </div>
-
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label
+                <label for="password2"
                   >Repeat Password <span class="login-danger">*</span></label
                 >
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Repeat Password"
-                />
+                {{ form.password2 }}
               </div>
             </div>
-
             <div class="col-12">
               <h5 class="form-title"><span>Address</span></h5>
             </div>
-
             <div class="col-12">
               <div class="form-group local-forms">
-                <label>Address <span class="login-danger">*</span></label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Enter address"
-                />
+                <label for="address"
+                  >Address <span class="login-danger">*</span></label
+                >
+                {{ form.address }}
               </div>
             </div>
-
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label>City <span class="login-danger">*</span></label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Enter City"
-                />
+                <label for="city"
+                  >City <span class="login-danger">*</span></label
+                >
+                {{ form.city }}
               </div>
             </div>
-
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label>State <span class="login-danger">*</span></label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Enter State"
-                />
+                <label for="state"
+                  >State <span class="login-danger">*</span></label
+                >
+                {{ form.state }}
               </div>
             </div>
-
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label>Zip Code <span class="login-danger">*</span></label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Enter Zip"
-                />
+                <label for="zip_code"
+                  >Zip Code <span class="login-danger">*</span></label
+                >
+                {{ form.zip_code }}
               </div>
             </div>
-
             <div class="col-12 col-sm-4">
               <div class="form-group local-forms">
-                <label>Country <span class="login-danger">*</span></label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Enter Country"
-                />
+                <label for="country"
+                  >Country <span class="login-danger">*</span></label
+                >
+                {{ form.country }}
               </div>
             </div>
-
             <div class="col-12">
               <div class="student-submit">
                 <button type="submit" class="btn btn-primary">Submit</button>
               </div>
             </div>
           </div>
-
-          {% endblock %}
         </form>
       </div>
     </div>
   </div>
 </div>
+
+{% endblock %}

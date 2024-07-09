@@ -15,9 +15,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/admin_style.css' %}">
-
+    {% block css_files%}{% endblock%}
+    <link rel="stylesheet" href="{% static 'path/to/css/general_style.css' %}">
+   
 </head>
 
 <body>
@@ -309,6 +309,33 @@
                         
                         </li>
 
+                        <li class="submenu {% if request.path in ['/parents/', '/parent_details/', '/add_parent/', '/edit_parent/'] %}active{% endif %}">
+                            
+                            <a href="#">
+                            
+                                <i class="fas fa-chalkboard-teacher" aria-hidden="true"></i> 
+                                <span> Parents </span> 
+                                <span class="menu-arrow"></span>
+                            
+                            </a>
+                            
+                            <ul>
+                                <li {% if request.path=='/parents/' %}class="active" {% endif %}>
+                                    <a href="{% url 'parents' %}">Parent List</a>
+                                </li>
+                                <li {% if request.path=='/parent_details/' %}class="active" {% endif %}>
+                                    <a href="{% url 'parent_details' %}">Parent View</a>
+                                </li>
+                                <li {% if request.path=='/add_parent/' %}class="active" {% endif %}>
+                                    <a href="{% url 'add_parent' %}">Parent Add</a>
+                                </li>
+                                <li {% if request.path=='/edit_parent/' %}class="active" {% endif %}>
+                                    <a href="{% url 'edit_parent' %}">Parent Edit</a>
+                                </li>
+                            </ul>
+                        
+                        </li>
+
                         <li class="submenu {% if request.path in ['/departments/', '/add_department/', '/edit_department/'] %}active{% endif %}">
                             
                             <a href="#">
@@ -542,7 +569,6 @@
                 </div>
             </div>
         </div>
-
         
         {% endblock %}
 
@@ -563,6 +589,24 @@
    
         </div>
 
+        {% if messages %}
+        
+        <div class="messages">
+    
+            {% for message in messages %}
+      
+            <div class="alert {{ message.tags }}">
+        
+                {{ message }}
+      
+            </div>
+    
+            {% endfor %}
+  
+        </div>
+        
+        {% endif %}
+
         <!-- Footer Section -->
 
         {% block footer %}
@@ -577,13 +621,12 @@
 
     </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-<script src="{% static 'js/script.js' %}"></script>
-<script defer src="{% static 'js/admin_script.js' %}"></script>
-
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <script defer src="{% static 'js/admin_script.js' %}"></script>
 
 </body>
 

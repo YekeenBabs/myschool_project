@@ -14,6 +14,7 @@ from django.db import models
 from django.core.validators import RegexValidator
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.conf import settings
+from django.core.validators import URLValidator
 
 
 class CustomUserManager(BaseUserManager):
@@ -139,7 +140,6 @@ class UserProfile(models.Model):
 
 
 class Department(models.Model):
-    # Ensure this field exists
     name = models.CharField(max_length=255, default="Default Department")
     department_id = models.CharField(max_length=20, unique=True)
     department_name = models.CharField(max_length=100)
@@ -169,6 +169,16 @@ class Subject(models.Model):
     def get_assigned_teachers(self):
         return ", ".join([teacher.name for teacher in self.assigned_teacher.all()])
 
+def clean_resources(self):
+  """
+  Custom validation for resources field (optional).
+
+  This example checks if the URL starts with "http" or "https".
+  """
+  value = self.cleaned_data.get('resources')
+  if value and not value.startswith(('http://', 'https://')):  # Add indentation here
+    raise forms.ValidationError('URL must start with "http://" or "https://"')
+  return value
 
 class Class(models.Model):
     name = models.CharField(max_length=100)
@@ -183,10 +193,12 @@ class Class(models.Model):
     capacity = models.IntegerField(blank=True, null=True)
     students = models.ManyToManyField(
         'Student', related_name='enrolled_classes')
-    teachers = models.ManyToManyField(
-        'Teacher', blank=True, related_name='teaching_classes', through='TeacherClass', through_fields=('class_assigned', 'teacher'))
+    # teachers = models.ManyToManyField(
+    #     'Teacher', blank=True, related_name='teaching_classes')
+    # new_teachers = models.ManyToManyField(
+    #     'Teacher', related_name='new_classes')
     description = models.TextField(blank=True)
-    resources = models.URLField(blank=True)
+    resources = models.URLField(blank=True, validators=[URLValidator])
     materials_list = models.TextField(blank=True)
     total_students = models.IntegerField(default=0)
     total_lessons = models.IntegerField(default=0)
@@ -195,33 +207,6 @@ class Class(models.Model):
 
     def __str__(self):
         return self.name
-
-# class Class(models.Model):
-    # name = models.CharField(max_length=100)
-    # subject = models.ManyToManyField(
-    #     'Subject', related_name='classes', blank=True)
-    # grade_level = models.CharField(max_length=50, blank=True)
-    # section = models.CharField(max_length=10, blank=True)
-    # start_date = models.DateField(blank=True, null=True)
-    # end_date = models.DateField(blank=True, null=True)
-    # meeting_time = models.CharField(max_length=100, blank=True)
-    # classroom = models.CharField(max_length=100, blank=True)
-    # capacity = models.IntegerField(blank=True, null=True)
-    # students = models.ManyToManyField(
-    #     'Student', related_name='enrolled_classes')
-    # teachers = models.ManyToManyField(
-    #     'Teacher', blank=True, related_name='teaching_classes', through='TeacherClass')
-    # description = models.TextField(blank=True)
-    # resources = models.URLField(blank=True)
-    # materials_list = models.TextField(blank=True)
-    # total_students = models.IntegerField(default=0)
-    # total_lessons = models.IntegerField(default=0)
-    # duration = models.IntegerField(default=0)
-    # total_hours = models.IntegerField(default=0)
-
-    # def __str__(self):
-        # return self.name
-
 
 class Teacher(models.Model):
     user = models.OneToOneField(
@@ -241,8 +226,7 @@ class Teacher(models.Model):
     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True)
     bio = models.TextField(blank=True)
     subject_specialization = models.CharField(max_length=100, blank=True)
-    classes = models.ManyToManyField(
-        Class, related_name='teachers_classes', default="")
+    classes = models.ManyToManyField('Class', related_name='teachers_classes')
     subject_taught = models.ForeignKey(
         Subject, on_delete=models.CASCADE, related_name='teachers_subjects', default="")
     subjects = models.ManyToManyField(
@@ -255,7 +239,8 @@ class Teacher(models.Model):
 class TeacherSubjectClass(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    class_assigned = models.ForeignKey(Class, on_delete=models.CASCADE)
+    class_assigned = models.ForeignKey('Class', on_delete=models.CASCADE)
+    class_arm = models.CharField(max_length=10, blank=True)
 
     class Meta:
         db_table = 'teacher_subject_class'
@@ -266,32 +251,21 @@ class TeacherSubjectClass(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.teacher} - {self.subject} - {self.class_assigned}"
+        return f"{self.teacher} - {self.subject} - {self.class_assigned} ({self.class_arm})"
 
 
 class TeacherClass(models.Model):
     teacher = models.ForeignKey('Teacher', on_delete=models.CASCADE)
     class_assigned = models.ForeignKey(
         'Class', on_delete=models.CASCADE, related_name='class_assigned')
-    school_class = models.ForeignKey(
-        'Class', on_delete=models.CASCADE, related_name='school_class', default=1)
+    # school_class = models.ForeignKey(
+    #     'Class', on_delete=models.CASCADE, related_name='school_class', default=1)
 
     class Meta:
         db_table = 'teacher_class'
 
     def __str__(self):
         return f'{self.teacher} - {self.class_assigned}'
-
-# class TeacherClass(models.Model):
-#     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-#     class_assigned = models.ForeignKey(Class, on_delete=models.CASCADE)
-#     school_class = models.ForeignKey('Class', on_delete=models.CASCADE)
-
-#     class Meta:
-#         db_table = 'teacher_class'
-
-#     def __str__(self):
-#         return f"{self.teacher} - {self.class_assigned}"
 
 
 class Lesson(models.Model):
@@ -302,7 +276,7 @@ class Lesson(models.Model):
     end_time = models.TimeField()
     is_confirmed = models.BooleanField(default=False)
     class_name = models.ForeignKey(
-        Class, on_delete=models.CASCADE, related_name='lessons')  # Added related_name
+        'Class', on_delete=models.CASCADE, related_name='lessons')  # Added related_name
 
 
 class Event(models.Model):
@@ -313,17 +287,17 @@ class Event(models.Model):
     end_time = models.TimeField(default=0)
 
 
-class Document(models.Model):
+class LectureNote(models.Model):
     subject = models.ForeignKey(
         Subject, on_delete=models.CASCADE, related_name='documents')
     class_associated = models.ForeignKey(
-        Class, on_delete=models.CASCADE, related_name='documents')
+        'Class', on_delete=models.CASCADE, related_name='documents', default="default_value_here")
     teacher = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     document_week = models.IntegerField(default=1)
     title = models.CharField(max_length=200)
-    description = models.TextField()
+    description = models.TextField(default='Default description')
     file = models.FileField(upload_to='documents/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+    uploaded_at = models.DateTimeField(default=timezone.now)
     content = models.TextField(default='')
     week = models.IntegerField(default=1)
 
@@ -335,7 +309,7 @@ class LectureVideo(models.Model):
     subject = models.ForeignKey(
         Subject, on_delete=models.CASCADE, related_name='videos')
     class_associated = models.ForeignKey(
-        Class, on_delete=models.CASCADE, related_name='videos')
+        'Class', on_delete=models.CASCADE, related_name='videos')
     teacher = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     week = models.IntegerField()
@@ -350,19 +324,26 @@ class LectureVideo(models.Model):
 
 class Assignment(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    class_name = models.ForeignKey(Class, on_delete=models.CASCADE)
-    week = models.IntegerField()
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    class_name = models.ForeignKey(
+        'Class', on_delete=models.CASCADE, default=1)
+    week = models.IntegerField(default=1)
     title = models.CharField(max_length=100)
-    description = models.TextField()
-    file = models.FileField(upload_to='assignments/')
-    upload_date = models.DateTimeField(auto_now_add=True)
+    description = models.TextField(default='Default description')
+    file = models.FileField(upload_to='assignments/', blank=True, null=True)
+    upload_date = models.DateTimeField(default=timezone.now)
+    # upload_date = models.DateTimeField(auto_now_add=True, default=timezone.now)
+    due_date = models.DateField()
+
+    def __str__(self):
+        return self.title
 
 
 class Notification(models.Model):
     recipient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
-                                  related_name='received_notifications', default="")
+                                  related_name='received_notifications', default="1")
     sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='sent_notifications',
-                               default="")  # Changed user to sender
+                               default="1")  # Changed user to sender
     message = models.TextField()
     is_read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -386,6 +367,19 @@ class ClassArm(models.Model):
     students = models.ManyToManyField('Student', related_name='class_arms')
     school_class = models.ForeignKey(
         SchoolClass, on_delete=models.CASCADE, default=1)
+
+
+def generate_unique_id():
+    return get_random_string(12)
+
+
+def get_default_result():
+    return {
+        "subject": "",
+        "score": 0,
+        "grade": "NA",  # Initial value for grade
+        "status": "Not Available"  # New key for result status
+    }
 
 
 class Student(models.Model):
@@ -416,7 +410,7 @@ class Student(models.Model):
     ], blank=True)
     address = models.TextField(blank=True)
     admission_id = models.CharField(max_length=20, blank=True, null=True)
-    courses = models.ManyToManyField('Course', blank=True)
+    # courses = models.ManyToManyField('Course', blank=True)
     grades = models.JSONField(blank=True, null=True)
     gpa = models.FloatField(blank=True, null=True)
     emergency_contact_name = models.CharField(max_length=100, blank=True)
@@ -440,9 +434,11 @@ class Student(models.Model):
     parent_name = models.CharField(max_length=100)
     parent_email = models.EmailField()
     parent_phone = models.CharField(max_length=15)
-    classes = models.ManyToManyField(Class)
+    # classes = models.ManyToManyField(Class)
     subjects = models.ManyToManyField(Subject, related_name='students')
-    student_id = models.CharField(max_length=10, default=get_random_string)
+    student_id = models.CharField(
+        max_length=12, default=generate_unique_id, unique=True)
+    # student_id = models.CharField(max_length=10, default=get_random_string)
     class_assigned = models.CharField(max_length=50, default='JSS1')
     class_arm = models.CharField(max_length=10, default='A')
     ca1 = models.PositiveIntegerField(default=0)
@@ -483,7 +479,8 @@ class Student(models.Model):
     assignment_score = models.IntegerField(null=True, blank=True)
     quiz_score = models.IntegerField(null=True, blank=True)
     project_score = models.IntegerField(null=True, blank=True)
-    result = models.JSONField(default=dict)
+    result = models.JSONField(default=get_default_result)
+    # result = models.JSONField(default=dict)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -537,7 +534,7 @@ class TeacherProfile(models.Model):
 
 class StudentProgress(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    document = models.ForeignKey(Document, on_delete=models.CASCADE)
+    document = models.ForeignKey(LectureNote, on_delete=models.CASCADE)
     viewed = models.BooleanField(default=False)
 
 
@@ -559,7 +556,6 @@ class Quiz(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     deadline = models.DateTimeField(default=timezone.now)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    # teacher = models.ForeignKey('Teacher', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
@@ -648,43 +644,6 @@ class Result(models.Model):
 
     def __str__(self):
         return f"{self.student} - {self.subject} - {self.grade}"
-
-
-class LectureNote(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-    title = models.CharField(max_length=255)
-    content = models.TextField()
-    file = models.FileField(upload_to='lecture_notes/')
-    date_uploaded = models.DateField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
-
-
-class Assignment(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-    title = models.CharField(max_length=255)
-    description = models.TextField()
-    file = models.FileField(upload_to='assignments/', blank=True, null=True)
-    due_date = models.DateField()
-    date_assigned = models.DateField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
-
-
-class Video(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-    title = models.CharField(max_length=255)
-    description = models.TextField()
-    file = models.FileField(upload_to='videos/')
-    date_uploaded = models.DateField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
 
 
 class Attendance(models.Model):
