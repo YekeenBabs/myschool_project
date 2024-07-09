@@ -15,8 +15,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    {% block css_files%}{% endblock%}
-    <link rel="stylesheet" href="{% static 'path/to/css/general_style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/general_style.css' %}">
+    {% block staticfiles%}{% endblock%}
    
 </head>
 
@@ -625,8 +625,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static 'js/script.js' %}"></script>
-    <script defer src="{% static 'js/admin_script.js' %}"></script>
+    <script src="{% static 'staticfiles/js/script.js' %}"></script>
+    <script defer src="{% static 'staticfiles/js/admin_script.js' %}"></script>
 
 </body>
 
